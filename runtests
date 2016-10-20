@@ -1,0 +1,2 @@
+#!/bin/bash
+php -d display_errors ./bin/phpunit -c phpunit.xml --stop-on-failure

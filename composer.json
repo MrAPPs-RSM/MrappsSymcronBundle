@@ -1,0 +1,22 @@
+{
+    "name": "mrapps/symcronbundle",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Simone Gentili",
+            "email": "sensorario@gmail.com"
+        }
+    ],
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.6",
+        "doctrine/orm": "@dev"
+    }
+}
