@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace Mrapps\SymCronBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Mrapps\SymCronBundle\Services\Client;
