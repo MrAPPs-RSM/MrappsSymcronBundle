@@ -9,15 +9,18 @@ use Mrapps\SymCronBundle\Entity\Task;
 class Client
 {
     private $httpClient;
+
     private $logger;
 
     private $baseUrl;
 
-    public function __construct(GuzzleClient $client, Logger $logger, $baseUrl)
-    {
+    public function __construct(
+        GuzzleClient $client,
+        Logger $logger,
+        $baseUrl
+    ) {
         $this->httpClient = $client;
         $this->logger = $logger;
-
         $this->baseUrl = $baseUrl;
     }
 
@@ -33,7 +36,6 @@ class Client
             $fullUrl = $this->baseUrl . $url;
         }
 
-
         try {
             switch ($task->getMethod()) {
                 case "POST":
@@ -45,14 +47,12 @@ class Client
                     break;
             }
 
-
             if ($response->getStatusCode() == 200) {
                 $task->setSuccess(true);
             } elseif ($response->getStatusCode() == 201) {
                 $task->setStartDateTime(null);
                 return $task;
             }
-
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             $task->setSuccess(false);

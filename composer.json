@@ -16,6 +16,7 @@
         }
     },
     "require-dev": {
+        "symfony/symfony": "^3.1",
         "phpunit/phpunit": "^5.6",
         "doctrine/orm": "@dev"
     }

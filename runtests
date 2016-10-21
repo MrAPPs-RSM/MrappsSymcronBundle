@@ -1,2 +1,7 @@
 #!/bin/bash
+
+clear
+
+php composer.phar install
+
 php -d display_errors ./bin/phpunit -c phpunit.xml --stop-on-failure

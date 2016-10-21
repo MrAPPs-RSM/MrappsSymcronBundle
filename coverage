@@ -1,0 +1,5 @@
+#!/bin/bash
+
+php -d display_errors ./bin/phpunit -c phpunit.xml --coverage-html=/tmp/coverage
+
+open /tmp/coverage/index.html
