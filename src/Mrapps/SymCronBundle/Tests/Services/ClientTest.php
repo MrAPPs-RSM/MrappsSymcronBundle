@@ -11,7 +11,7 @@ class ClientTest extends TestCase
 {
     public function setUp()
     {
-        $this->guzzle = $this->getMockBuilder("GuzzleHttp\\Client")
+        $this->guzzle = $this->getMockBuilder("Guzzle\\Http\\Client")
             ->setMethods([
                 "get"
             ])

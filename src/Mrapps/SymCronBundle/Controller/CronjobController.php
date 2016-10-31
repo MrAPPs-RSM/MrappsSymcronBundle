@@ -2,15 +2,14 @@
 
 namespace Mrapps\SymCronBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
 use Mrapps\SymCronBundle\Services\Client;
 use Mrapps\SymCronBundle\Services\CronManager;
 use Mrapps\SymCronBundle\Services\GroupSelector;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use GuzzleHttp\Client as GuzzleClient;
-use Symfony\Component\Routing\Generator\UrlGenerator;
+use Guzzle\Http\Client as GuzzleClient;
 
 /**
  * @Route("/cronjob")
@@ -29,7 +28,8 @@ class CronjobController
             ->getRepository("MrappsSymCronBundle:GroupTask")
             ->findAllActiveGroups();
 
-        $groupSelector = (new GroupSelector())->addGroups($groups);
+        $groupSelector = new GroupSelector();
+        $groupSelector->addGroups($groups);
 
         $cronManager = new CronManager($groupSelector, $entityManager);
         $nextTask = $cronManager->nextActivity();
@@ -53,16 +53,12 @@ class CronjobController
 
         $resultTask = $client->runTask($nextTask);
 
-        if ($resultTask != null) {
+        if ($resultTask == null) {
             return new JsonResponse(array(
                 "success" => false,
                 "message" => "Failed to call task id " . $nextTask->getId(),
             ));
         }
-
-        $entityManager->persist($resultTask->getGroup());
-        $entityManager->persist($resultTask);
-        $entityManager->flush();
 
         if (!$resultTask->isStarted()) {
             $success = true;
@@ -73,10 +69,13 @@ class CronjobController
             }
         }
 
+        $entityManager->persist($resultTask->getGroup());
+        $entityManager->persist($resultTask);
+        $entityManager->flush();
+
         $message = $success
             ? null
-            : "Error running task id " . $resultTask->getId()
-        ;
+            : "Error running task id " . $resultTask->getId();
 
         return new JsonResponse(array(
             "success" => $success,

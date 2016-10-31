@@ -2,7 +2,7 @@
 
 namespace Mrapps\SymCronBundle\Services;
 
-use GuzzleHttp\Client as GuzzleClient;
+use Guzzle\Http\Client as GuzzleClient;
 use Monolog\Logger;
 use Mrapps\SymCronBundle\Entity\Task;
 
@@ -18,7 +18,8 @@ class Client
         GuzzleClient $client,
         Logger $logger,
         $baseUrl
-    ) {
+    )
+    {
         $this->httpClient = $client;
         $this->logger = $logger;
         $this->baseUrl = $baseUrl;
@@ -39,13 +40,15 @@ class Client
         try {
             switch ($task->getMethod()) {
                 case "POST":
-                    $response = $this->httpClient->post($fullUrl);
+                    $request = $this->httpClient->post($fullUrl);
                     break;
                 case "GET":
                 default:
-                    $response = $this->httpClient->get($fullUrl);
+                    $request = $this->httpClient->get($fullUrl);
                     break;
             }
+
+            $response = $request->send();
 
             if ($response->getStatusCode() == 200) {
                 $task->setSuccess(true);

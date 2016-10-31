@@ -10,7 +10,7 @@ class GroupTaskRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery("
-                select g,t from mrappssymcronbundle:grouptask g
+                select g,t from MrappsSymCronBundle:GroupTask g
                 inner join g.tasks t
                 where g.enabled=1
                 order by g.weight, t.weight
