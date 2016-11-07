@@ -48,7 +48,7 @@ class CronjobController
         $client = new Client(
             new GuzzleClient(),
             $this->container->get("logger"),
-            $this->container->get('request_stack')->getCurrentRequest()->getBaseUrl()
+            $request->getSchemeAndHttpHost()
         );
 
         $resultTask = $client->runTask($nextTask);
