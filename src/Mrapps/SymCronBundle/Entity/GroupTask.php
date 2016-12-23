@@ -21,6 +21,13 @@ class GroupTask
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     */
+    private $name;
 
     /**
      * @var int
@@ -307,4 +314,53 @@ class GroupTask
 
         return $this->startedAt() < $midnight;
     }
+    
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+    
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+    public function isEnabled() { return $this->getEnabled(); }
+    
+    /**
+     * Get iterations counter
+     *
+     * @return int
+     */
+    public function getIterationsCounter()
+    {
+        return $this->iterationsCounter;
+    }
+
+    /**
+     * Get iterations limit
+     *
+     * @return int
+     */
+    public function getIterationsLimit()
+    {
+        return $this->iterationsLimit;
+    }
+    
 }
