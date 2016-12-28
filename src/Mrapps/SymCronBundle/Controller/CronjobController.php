@@ -62,20 +62,20 @@ class CronjobController
 
         if (!$resultTask->isStarted()) {
             $success = true;
+            $message = 'Task with id '.$resultTask->getId().' has already started';
         } else {
             $success = $resultTask != null && $resultTask->isSuccess();
             if ($success && $resultTask->getGroup()->isCompleted()) {
                 $resultTask->getGroup()->incrementIterationCounter();
             }
+            $message = $success
+            ? null
+            : "Error running task id " . $resultTask->getId();
         }
 
         $entityManager->persist($resultTask->getGroup());
         $entityManager->persist($resultTask);
-        $entityManager->flush();
-
-        $message = $success
-            ? null
-            : "Error running task id " . $resultTask->getId();
+        $entityManager->flush();        
 
         return new JsonResponse(array(
             "success" => $success,
