@@ -62,7 +62,7 @@ class CronjobController
 
         if (!$resultTask->isStarted()) {
             $success = true;
-            $message = 'Task with id '.$resultTask->getId().' has already started';
+            $message = null;
         } else {
             $success = $resultTask != null && $resultTask->isSuccess();
             if ($success && $resultTask->getGroup()->isCompleted()) {
